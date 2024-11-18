@@ -22,12 +22,8 @@ public class GlobalSearchCommand implements Command {
     }
 
     @Override
-    public String process(String input) {
-        try {
-            String template = getParamFromInput(input);
-            return lectorService.globalSearchBy(template);
-        } catch (ParameterEmptyException e) {
-            return e.getMessage();
-        }
+    public String process(String input) throws ParameterEmptyException {
+        String template = getParamFromInput(input);
+        return lectorService.globalSearchBy(template);
     }
 }

@@ -21,5 +21,5 @@ public interface Command {
 
     CommandName getCommandName();
 
-    String process(String input);
+    String process(String input) throws ParameterEmptyException;
 }

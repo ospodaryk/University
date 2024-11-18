@@ -22,12 +22,8 @@ public class EmployeeCountCommand implements Command {
     }
 
     @Override
-    public String process(String input) {
-        try {
-            String departmentName = getParamFromInput(input);
-            return departmentService.getEmployeeCount(departmentName);
-        } catch (ParameterEmptyException e) {
-            return e.getMessage();
-        }
+    public String process(String input) throws ParameterEmptyException {
+        String departmentName = getParamFromInput(input);
+        return departmentService.getEmployeeCount(departmentName);
     }
 }
