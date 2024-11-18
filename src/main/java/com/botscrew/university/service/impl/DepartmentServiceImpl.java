@@ -2,7 +2,6 @@ package com.botscrew.university.service.impl;
 
 import com.botscrew.university.entity.Degree;
 import com.botscrew.university.entity.Department;
-import com.botscrew.university.exception.DepartmentNotFoundException;
 import com.botscrew.university.repository.DepartmentRepository;
 import com.botscrew.university.service.DepartmentService;
 import lombok.AccessLevel;
@@ -32,19 +31,22 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public String getDepartmentStatistics(String departmentName) {
-        try {
-            return Arrays.stream(Degree.values())
-                    .map(degree -> {
-                        Long count = departmentRepository.countLectorsByDegreeInDepartment(departmentName, degree);
-                        if (count == 0) {
-                            throw new DepartmentNotFoundException();
-                        }
-                        return String.format("%s - %s", degree, count);
-                    })
-                    .collect(Collectors.joining("\n"));
-        } catch (DepartmentNotFoundException exception) {
+        if (!checkDepartmentExist(departmentName)) {
             return String.format(DEPARTMENT_NOT_FOUND, departmentName);
         }
+
+        return Arrays.stream(Degree.values())
+                .map(degree -> formatDegreeStatistics(departmentName, degree))
+                .collect(Collectors.joining("\n"));
+    }
+
+    private boolean checkDepartmentExist(String departmentName) {
+        return departmentRepository.findByDepartmentName(departmentName).isPresent();
+    }
+
+    private String formatDegreeStatistics(String departmentName, Degree degree) {
+        long count = departmentRepository.countLectorsByDegreeInDepartment(departmentName, degree);
+        return String.format("%s - %d", degree, count);
     }
 
     @Override
