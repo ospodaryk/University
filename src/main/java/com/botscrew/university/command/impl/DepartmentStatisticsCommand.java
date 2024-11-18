@@ -2,6 +2,7 @@ package com.botscrew.university.command.impl;
 
 import com.botscrew.university.command.Command;
 import com.botscrew.university.constant.CommandName;
+import com.botscrew.university.exception.ParameterEmptyException;
 import com.botscrew.university.service.DepartmentService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +23,12 @@ public class DepartmentStatisticsCommand implements Command {
 
     @Override
     public String process(String input) {
-        String departmentName = getParamFromInput(input);
-        return departmentService.getDepartmentStatistics(departmentName);
+        try {
+            String departmentName = getParamFromInput(input);
+            return departmentService.getDepartmentStatistics(departmentName);
+        } catch (ParameterEmptyException e) {
+            return e.getMessage();
+        }
     }
 
     @Override
@@ -37,6 +42,10 @@ public class DepartmentStatisticsCommand implements Command {
     public String getParamFromInput(String input) {
         int commandStartsLength = getCommandName().getCommandStartsWith().length();
         String commandEndsWith = getCommandName().getCommandEndsWith();
-        return input.substring(commandStartsLength, input.indexOf(commandEndsWith)).trim();
+        String trimmed = input.substring(commandStartsLength, input.indexOf(commandEndsWith)).trim();
+        if (trimmed.isBlank()) {
+            throw new ParameterEmptyException();
+        }
+        return trimmed;
     }
 }

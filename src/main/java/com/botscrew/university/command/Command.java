@@ -1,6 +1,7 @@
 package com.botscrew.university.command;
 
 import com.botscrew.university.constant.CommandName;
+import com.botscrew.university.exception.ParameterEmptyException;
 
 public interface Command {
 
@@ -11,11 +12,14 @@ public interface Command {
 
     default String getParamFromInput(String input) {
         String commandStart = getCommandName().getCommandStartsWith();
-        return input.substring(commandStart.length()).trim();
+        String trimmed = input.substring(commandStart.length()).trim();
+        if (trimmed.isBlank()) {
+            throw new ParameterEmptyException();
+        }
+        return trimmed;
     }
 
     CommandName getCommandName();
-
 
     String process(String input);
 }

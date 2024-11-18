@@ -2,6 +2,7 @@ package com.botscrew.university.command.impl;
 
 import com.botscrew.university.command.Command;
 import com.botscrew.university.constant.CommandName;
+import com.botscrew.university.exception.ParameterEmptyException;
 import com.botscrew.university.service.LectorService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,11 @@ public class GlobalSearchCommand implements Command {
 
     @Override
     public String process(String input) {
-        String template = getParamFromInput(input);
-        return lectorService.globalSearchBy(template);
+        try {
+            String template = getParamFromInput(input);
+            return lectorService.globalSearchBy(template);
+        } catch (ParameterEmptyException e) {
+            return e.getMessage();
+        }
     }
 }
