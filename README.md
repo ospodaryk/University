@@ -36,9 +36,9 @@ A Spring Boot-based Java application to manage university departments and lector
 
 ## Commands
 
-1. **Who is head of department {department_name}?**
+1. **Who is head of department {department_name}**
    ```
-   Who is head of department Computer Science?
+   Who is head of department Computer Science
    ```
    **Answer**: `Head of Computer Science department is John Snow`
 
@@ -51,17 +51,17 @@ A Spring Boot-based Java application to manage university departments and lector
    `Associate professors - 3`  
    `Professors - 7`
 
-3. **Show the average salary for {department_name}**
+3. **Show the average salary for the department {department_name}**
    ```
-   Show the average salary for Physics
+   Show the average salary for the department Physics
    ```
    **Answer**: `The average salary of Physics is 45000.00`
 
-4. **Show count of employees for {department_name}**
+4. **Show count of employee for {department_name}**
    ```
-   Show count of employees for Chemistry
+   Show count of employee for Chemistry
    ```
-   **Answer**: `The employee count for Chemistry is 12`
+   **Answer**: `12`
 
 5. **Global search by {template}**
    ```
